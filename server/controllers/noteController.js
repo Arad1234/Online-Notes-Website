@@ -1,4 +1,6 @@
 const NoteModel = require("../models/notesSchema");
+
+// A controller for all the CRUD operations on the "notes" collection.
 const noteController = {
   getAllNotes: async (socket, socketServer) => {
     try {
@@ -41,6 +43,20 @@ const noteController = {
         status: "ok",
         taskId: noteToDelete._id,
       });
+    } catch (error) {
+      socket.emit("error", error);
+    }
+  },
+
+  editStatus: async (data, socket, serverSocket) => {
+    const { noteId, statusValue } = data;
+
+    try {
+      const noteToUpdate = await NoteModel.findOne({ _id: noteId });
+      noteToUpdate.status = statusValue;
+      await noteToUpdate.save();
+      // Emiting an event to indicate that the status have been changes successfully.
+      serverSocket.emit("statusChanged", { noteId, newStatus: statusValue });
     } catch (error) {
       socket.emit("error", error);
     }

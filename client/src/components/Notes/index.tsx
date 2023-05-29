@@ -9,6 +9,7 @@ export interface Note {
   title: string;
   description: string;
   createdAt: Date;
+  status: boolean;
   _id: number;
 }
 
@@ -29,8 +30,8 @@ const Notes = () => {
       });
 
       // First initialize all the sockets event listeners so I can later emit events to them from the server.
-      socketEvents(socket, setNotes);
-      // First emmited event to get all the notes. This event will trigger the event in the server that will trigger the event inside of the "socketEvents" function.
+      socketEvents(socket, setNotes, navigate);
+      // First event to get all the notes. This event will trigger the event in the server that will trigger the event inside of the "socketEvents" function.
       socket.emit("getAllNotes");
 
       setSocket(socket);
@@ -45,7 +46,21 @@ const Notes = () => {
   }, []);
 
   const handleDeleteNote = (noteId: number) => {
-    socket?.emit("deleteNote", { noteId });
+    const token = localStorage.getItem("token");
+    socket?.emit("deleteNote", { noteId, token });
+  };
+
+  const handleStatusChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    noteId: number
+  ) => {
+    const token = localStorage.getItem("token");
+    // Emiting an event name "editStatus" to the server.
+    socket?.emit("editStatus", {
+      noteId: noteId,
+      statusValue: e.target.checked,
+      token: token,
+    });
   };
   return (
     <div>
@@ -58,6 +73,11 @@ const Notes = () => {
               className="note-container"
               key={note._id}
             >
+              <input
+                type="checkbox"
+                checked={note.status}
+                onChange={(e) => handleStatusChange(e, note._id)}
+              />
               <div>{note.title}</div>
               <div>{note.description}</div>
               <div>{note.createdAt.toString()}</div>

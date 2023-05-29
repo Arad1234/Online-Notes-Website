@@ -15,10 +15,13 @@ const AddNote = ({ socket }: AddNoteProps) => {
   });
   const handleAddNote = async (e: React.FormEvent) => {
     e.preventDefault();
+    const token = localStorage.getItem("token");
+
     // Emitting an event name "createNote" to the server.
     socket?.emit("createNote", {
       title: noteDetails.title,
       description: noteDetails.description,
+      token: token, // Sending the token to verify user.
     });
   };
 

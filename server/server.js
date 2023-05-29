@@ -25,7 +25,7 @@ mongoose.connect("mongodb://127.0.0.1:27017").then(() => {
 
 app.use("/api/auth", authRouter);
 
-// Middleware that every client that try to connect to the socket needs to verify their token first.
+// Middleware that every client that try to connect to the socket connection needs to verify their token first.
 socketServer.use((socket, next) => {
   const token = socket.handshake.auth.token;
   try {
@@ -37,6 +37,8 @@ socketServer.use((socket, next) => {
     next(new Error("Authorization error"));
   }
 });
+
+// After the middleware verified the token successfully, this event listener is triggered.
 socketServer.on("connection", (socket) => {
   console.log("Client connected!");
   // Calling the socketHandler function to handle sockets events.
