@@ -49,6 +49,7 @@ npm install
 - Create a new note by clicking on the "Create New Note" button.
 - Edit and save your notes. Changes will be automatically synchronized with other users viewing the same note.
 - Delete notes you no longer need.
+- Open multiple instances of the app, display each instance on different sides of the computer screen, and observe the functionality of the sockets by adding, deleting, or editing notes.
 
 ## Acknowledgements
 
