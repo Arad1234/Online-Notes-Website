@@ -1,0 +1,22 @@
+.all-inputs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  .input-container {
+    display: flex;
+    flex-direction: column;
+
+    textarea {
+      resize: vertical;
+      padding: 4px;
+      border-radius: 5px;
+      font-family: system-ui;
+    }
+
+    input {
+      padding: 4px;
+      border: 1px solid gray;
+      border-radius: 5px;
+    }
+  }
+}

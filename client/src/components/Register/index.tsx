@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Socket, io } from "socket.io-client";
+import "../../styles/register-login-styling/index.scss";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -49,34 +49,50 @@ const Register = () => {
     }
   };
   return (
-    <form onSubmit={handleSubmit}>
-      <label>Name:</label>
-      <input
-        type="text"
-        name="name"
-        onChange={(e) =>
-          setCredentials({ ...credentials, name: e.target.value })
-        }
-      />
-      <label>Email:</label>
-      <input
-        type="email"
-        name="email"
-        onChange={(e) =>
-          setCredentials({ ...credentials, email: e.target.value })
-        }
-      />
-      <label>Password:</label>
-      <input
-        type="password"
-        name="password"
-        onChange={(e) =>
-          setCredentials({ ...credentials, password: e.target.value })
-        }
-      />
-
-      <button type="submit">Register</button>
-    </form>
+    <div className="login-page-container">
+      <h1>Register Page</h1>
+      <form
+        className="login-form"
+        onSubmit={handleSubmit}
+      >
+        <div className="inputs-labels-container">
+          <div className="input-container">
+            <label>Name:</label>
+            <input
+              type="text"
+              name="name"
+              onChange={(e) =>
+                setCredentials({ ...credentials, name: e.target.value })
+              }
+            />
+          </div>
+          <div className="input-container">
+            <label>Email:</label>
+            <input
+              type="email"
+              name="email"
+              onChange={(e) =>
+                setCredentials({ ...credentials, email: e.target.value })
+              }
+            />
+          </div>
+          <div className="input-container">
+            <label>Password:</label>
+            <input
+              type="password"
+              name="password"
+              onChange={(e) =>
+                setCredentials({ ...credentials, password: e.target.value })
+              }
+            />
+          </div>
+          <button type="submit">Register</button>
+        </div>
+      </form>
+      <p>
+        Already have an account? <a href="/login">Login</a>
+      </p>
+    </div>
   );
 };
 

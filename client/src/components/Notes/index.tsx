@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AddNote from "./AddNote";
 import "./index.scss";
 import { Socket, io } from "socket.io-client";
 import { socketEvents } from "../../helpers/socketEvents";
+import ModalComponent from "../Modal";
 
 export interface Note {
   title: string;
@@ -16,6 +16,7 @@ export interface Note {
 const Notes = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [notes, setNotes] = useState<Note[]>([]);
+  const [showModal, setShowModal] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -62,26 +63,54 @@ const Notes = () => {
       token: token,
     });
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
   return (
     <div>
-      <AddNote socket={socket} />
+      <div className="top-buttons">
+        <button onClick={() => setShowModal(true)}>Create new note</button>
+        <button onClick={handleLogout}>Logout</button>
+      </div>
+
+      <ModalComponent
+        setShowModal={setShowModal}
+        showModal={showModal}
+        socket={socket}
+      />
       <div className="all-notes-container">
         <h1>All Notes</h1>
         {notes.map((note) => {
           return (
-            <div
-              className="note-container"
-              key={note._id}
-            >
+            <div className="note-main">
+              <div
+                className="note-container"
+                key={note._id}
+              >
+                <div className="title-timestamp-container">
+                  <h2 className="note-title">{note.title}</h2>
+                  <div className="note-timestamp">
+                    {new Date(note.createdAt).toLocaleString("he-IL", {
+                      year: "numeric",
+                      month: "numeric",
+                      day: "numeric",
+                    })}
+                  </div>
+                </div>
+
+                <div className="note-description">{note.description}</div>
+
+                <button onClick={() => handleDeleteNote(note._id)}>
+                  Delete
+                </button>
+              </div>
               <input
                 type="checkbox"
                 checked={note.status}
                 onChange={(e) => handleStatusChange(e, note._id)}
               />
-              <div>{note.title}</div>
-              <div>{note.description}</div>
-              <div>{note.createdAt.toString()}</div>
-              <button onClick={() => handleDeleteNote(note._id)}>Delete</button>
             </div>
           );
         })}

@@ -1,3 +1,4 @@
+import "../../styles/register-login-styling/index.scss";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -36,26 +37,40 @@ const Login = () => {
     }
   };
   return (
-    <form onSubmit={handleSubmit}>
-      <label>Email:</label>
-      <input
-        type="email"
-        name="email"
-        onChange={(e) =>
-          setCredentials({ ...credentials, email: e.target.value })
-        }
-      />
-      <label>Password:</label>
-      <input
-        type="password"
-        name="password"
-        onChange={(e) =>
-          setCredentials({ ...credentials, password: e.target.value })
-        }
-      />
-
-      <button type="submit">Login</button>
-    </form>
+    <div className="login-page-container">
+      <h1>Login Page</h1>
+      <form
+        className="login-form"
+        onSubmit={handleSubmit}
+      >
+        <div className="inputs-labels-container">
+          <div className="input-container">
+            <label>Email:</label>
+            <input
+              type="email"
+              name="email"
+              onChange={(e) =>
+                setCredentials({ ...credentials, email: e.target.value })
+              }
+            />
+          </div>
+          <div className="input-container">
+            <label>Password:</label>
+            <input
+              type="password"
+              name="password"
+              onChange={(e) =>
+                setCredentials({ ...credentials, password: e.target.value })
+              }
+            />
+          </div>
+          <button type="submit">Login</button>
+        </div>
+      </form>
+      <p>
+        New to the app? <a href="/register">Join now</a>
+      </p>
+    </div>
   );
 };
 

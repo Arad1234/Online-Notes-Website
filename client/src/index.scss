@@ -1,0 +1,36 @@
+.footer {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background-color: rgb(230, 205, 230);
+  font-size: 50px;
+  font-weight: 900;
+  font-family: system-ui;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+.main {
+  margin-top: 115px;
+  h1 {
+    font-family: system-ui;
+    font-size: 3rem;
+    color: rgb(164, 150, 164);
+    margin-top: 0;
+  }
+
+  label {
+    font-family: system-ui;
+    font-weight: 600;
+  }
+
+  input {
+    font-family: sans-serif;
+  }
+
+  textarea {
+    font-family: sans-serif;
+  }
+}
